@@ -438,12 +438,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  /* 当前页高亮 */
-  var path = window.location.pathname.split("/").pop() || "index.html";
+  /* 当前页高亮：适配目录型干净 URL */
+  var path = window.location.pathname.replace(/\/$/, "");
+  if (path === "") path = "/";
+  if (path === "/index.html" || path === "/index") path = "/";
   var navLinks = document.querySelectorAll(".main-nav a");
   for (var a = 0; a < navLinks.length; a++) {
-    var href = navLinks[a].getAttribute("href");
-    if (href === path || (path === "" && href === "index.html")) {
+    var href = navLinks[a].getAttribute("href") || "";
+    href = href.replace(/\/$/, "");
+    if (href === "") href = "/";
+    if (href === path) {
       navLinks[a].classList.add("active");
     }
   }
