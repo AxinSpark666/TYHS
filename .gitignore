@@ -2,3 +2,15 @@
 images/front-wall.jpg
 images/brands-raw.png
 images/brands-new.png
+
+# 本地抓取的原始产品素材（约 15MB，仅本地留存，不推送）
+产品图/
+
+# 本地预览脚本（依赖本机端口，不推送）
+本地预览.bat
+
+# 系统与临时文件
+Thumbs.db
+.DS_Store
+*.tmp
+*.log

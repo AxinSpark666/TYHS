@@ -13,14 +13,16 @@ function pdLang() {
   }
 }
 function pdT(pair) {
-  if (Array.isArray(pair)) return pair[pdLang() === "en" ? 1 : 0];
+  if (Array.isArray(pair)) {
+    var v = pair[pdLang() === "en" ? 1 : 0];
+    return v == null ? pair[0] : v;
+  }
   return pair;
 }
 
 /* ---------- 固定文案 ---------- */
 var PDT = {
   sidebarTitle: ["產品分類", "Product Categories"],
-  sidebarNote: ["點擊型號可快速跳轉；圖片與規格可點擊查看詳情。", "Click a model to jump; open a card for full specifications."],
   more: ["查看規格", "View specs"],
   modalKicker: ["產品參數", "Product Specifications"],
   modalNoteTitle: ["說明：", "Note: "],
@@ -29,6 +31,10 @@ var PDT = {
     "Specifications above are platform reference values for this model. Cooling design, factory clocks and power delivery vary by brand. Please refer to the manufacturer's specification and the actual product; contact our sales team for availability and pricing."
   ],
   emptyImg: ["圖片待補", "Image pending"],
+  srcNote: [
+    "以上參數取自品牌官方規格頁，僅供選型參考，實際以原廠公佈與出貨實物為準；供貨狀態與報價請聯絡業務確認。",
+    "Specifications are taken from the brand's official specification page and are for reference only. The manufacturer's published data and the shipped product prevail; contact our sales team for availability and pricing."
+  ],
   close: ["關閉", "Close"],
   uncategorized: ["其他", "Other"]
 };
@@ -49,6 +55,8 @@ var SP = {
   gpu: ["GPU 配置", "GPU Configuration"],
   vramtotal: ["顯存總量", "Total Memory"],
   bw: ["顯存帶寬", "Memory Bandwidth"],
+  band: ["顯存帶寬", "Memory Bandwidth"],
+  tops: ["AI 算力", "AI Performance"],
   nvlink: ["GPU 互聯", "GPU Interconnect"],
   cpu: ["處理器", "CPU"],
   mem: ["記憶體插槽", "Memory Slots"],
@@ -60,6 +68,87 @@ var SP = {
   status: ["供貨狀態", "Availability"]
 };
 
+/* ---------- 原廠規格欄位雙語標籤 ---------- */
+var PD_LABEL = {
+  "model name": ["型號", "Model"],
+  "型號": ["型號", "Model"],
+  "繪圖引擎": ["繪圖核心", "GPU"],
+  "繪圖核心": ["繪圖核心", "GPU"],
+  "cores": ["CUDA 核心", "CUDA Cores"],
+  "cuda® cores": ["CUDA 核心", "CUDA Cores"],
+  "cuda core": ["CUDA 核心", "CUDA Cores"],
+  "cuda 核心數": ["CUDA 核心", "CUDA Cores"],
+  "memory": ["記憶體", "Memory"],
+  "記憶體容量": ["記憶體容量", "Memory Size"],
+  "記憶體規格": ["記憶體類型", "Memory Type"],
+  "記憶體形式": ["記憶體", "Memory"],
+  "記憶體介面": ["記憶體位寬", "Memory Bus"],
+  "memory interface": ["記憶體位寬", "Memory Bus"],
+  "記憶體速度": ["記憶體速度", "Memory Speed"],
+  "memory speed": ["記憶體速度", "Memory Speed"],
+  "記憶體時脈": ["記憶體速度", "Memory Speed"],
+  "動態 / 核心時脈(mhz)": ["GPU 時脈", "GPU Clock"],
+  "核心時脈": ["GPU 時脈", "GPU Clock"],
+  "gpu 時脈": ["GPU 時脈", "GPU Clock"],
+  "ai performance": ["AI 算力", "AI Performance"],
+  "科技介面": ["匯流排介面", "Bus Interface"],
+  "匯流排": ["匯流排介面", "Bus Interface"],
+  "匯流排規格": ["匯流排介面", "Bus Standard"],
+  "介面": ["輸出介面", "Interface"],
+  "output": ["輸出介面", "Outputs"],
+  "輸出": ["輸出介面", "Outputs"],
+  "directx 支援版本": ["DirectX", "DirectX"],
+  "directx 支援": ["DirectX", "DirectX"],
+  "opengl 支援版本": ["OpenGL", "OpenGL"],
+  "opengl 支援": ["OpenGL", "OpenGL"],
+  "opengl": ["OpenGL", "OpenGL"],
+  "hdcp 支援": ["HDCP", "HDCP"],
+  "g-sync® technology": ["G-SYNC", "G-SYNC"],
+  "最大螢幕輸出數量": ["多螢幕支援", "Multi-display"],
+  "多螢幕支援": ["多螢幕支援", "Multi-display"],
+  "最多可支援顯示器數量": ["多螢幕支援", "Multi-display"],
+  "digital maximum resolution": ["最大解析度", "Max Resolution"],
+  "最大數位解析度": ["最大解析度", "Max Resolution"],
+  "解析度": ["最大解析度", "Resolution"],
+  "nvlink/ crossfire support": ["GPU 互聯", "NVLink"],
+  "nvlink/ crossfire 支援": ["GPU 互聯", "NVLink"],
+  "功耗(w)": ["功耗", "Power"],
+  "建議電源供應(w)": ["建議電源", "Recommended PSU"],
+  "建議電源供應": ["建議電源", "Recommended PSU"],
+  "建議電源供應器": ["建議電源", "Recommended PSU"],
+  "recommended psu": ["建議電源", "Recommended PSU"],
+  "psu": ["建議電源", "Recommended PSU"],
+  "供電接口": ["供電接口", "Power Connectors"],
+  "電源連接器": ["供電接口", "Power Connector"],
+  "顯示卡尺寸(mm)": ["產品尺寸", "Dimensions"],
+  "尺寸": ["產品尺寸", "Dimensions"],
+  "產品尺寸": ["產品尺寸", "Dimensions"],
+  "重量 (顯示卡 / 包裝盒)": ["重量", "Weight"],
+  "slot": ["Slot 厚度", "Slot"],
+  "sff ready": ["SFF Ready", "SFF Ready"],
+  "aura sync": ["燈效同步", "AURA SYNC"],
+  "配件": ["配件", "Accessories"],
+  "package content": ["包裝內容", "Package Content"],
+  "軟體": ["軟體", "Software"],
+  "備註": ["備註", "Note"],
+  "note": ["備註", "Note"],
+  "pcb 規格": ["PCB 規格", "PCB Form"],
+  "水管長度": ["水管長度", "Tube Length"],
+  "radiator": ["冷排規格", "Radiator"],
+  "fan": ["風扇", "Fan"],
+  "box size": ["包裝尺寸", "Box Size"],
+  "box weight": ["包裝重量", "Box Weight"],
+  "system requirement": ["系統需求", "System Requirement"],
+  "ac input": ["交流輸入", "AC Input"],
+  "dc output": ["直流輸出", "DC Output"],
+  "graphics card": ["顯示卡", "Graphics Card"]
+};
+
+function pdLabel(key) {
+  var hit = PD_LABEL[String(key).toLowerCase()];
+  return hit ? pdT(hit) : key;
+}
+
 /* ---------- 品牌名稱 ---------- */
 var PDBRAND = {
   gigabyte: ["技嘉 GIGABYTE", "GIGABYTE"],
@@ -68,7 +157,7 @@ var PDBRAND = {
   colorful: ["七彩虹 Colorful", "Colorful"],
   leadtek: ["麗臺 LeadTek", "Leadtek"],
   pny: ["PNY", "PNY"],
-  nvidia: ["NVIDIA 公版 / HGX", "NVIDIA Founders / HGX"],
+  nvidia: ["NVIDIA 原廠", "NVIDIA"],
   dell: ["Dell", "Dell"],
   supermicro: ["Supermicro", "Supermicro"]
 };
@@ -244,13 +333,15 @@ var PRODUCTS = [
         id: "rtx-pro-5000",
         name: "RTX PRO 5000",
         tag: ["專業工作站", "Professional Workstation"],
-        brief: "48GB GDDR7 · 300W · 雙槽渦輪",
+        brief: ["48GB GDDR7 · 300W · 雙槽渦輪", "48GB GDDR7 · 300W · Dual-slot blower"],
         specs: [
           ["arch", "NVIDIA RTX PRO Blackwell"],
-          ["vram", "48GB GDDR7"],
+          ["cuda", "14,080"],
+          ["tops", "2,142 AI TOPS"],
+          ["vram", ["48GB GDDR7（ECC）", "48GB GDDR7 (ECC)"]],
           ["iface", "PCIe 5.0 x16"],
           ["power", "300W"],
-          ["size", ["雙槽渦輪散熱", "Dual-slot blower"]],
+          ["size", ["雙槽主動散熱（渦輪）", "Dual-slot active cooling (blower)"]],
           ["out", "4 × DisplayPort 2.1"],
           ["use", ["AI 訓練與推理、CAD / 3D 渲染、數據可視化、多卡工作站", "AI training and inference, CAD / 3D rendering, visualization, multi-GPU workstations"]]
         ],
@@ -265,15 +356,17 @@ var PRODUCTS = [
         id: "rtx-pro-5500",
         name: "RTX PRO 5500",
         tag: ["大顯存工作站", "Large-Memory Workstation"],
-        brief: "48GB GDDR7 · 雙槽渦輪 · 多卡部署",
+        brief: ["84GB GDDR7 · 600W · 1398 GB/s", "84GB GDDR7 · 600W · 1398 GB/s"],
         specs: [
           ["arch", "NVIDIA RTX PRO Blackwell"],
-          ["vram", ["48GB GDDR7（供貨版本依原廠配置）", "48GB GDDR7 (configuration per supply batch)"]],
-          ["iface", "PCIe 5.0 x16"],
-          ["power", ["300W 級（依品牌方案）", "300W class (varies by brand)"]],
-          ["size", ["雙槽渦輪散熱", "Dual-slot blower"]],
-          ["out", "4 × DisplayPort 2.1"],
-          ["use", ["大模型推理、專業渲染、虛擬化多用戶工作站", "LLM inference, professional rendering, virtualized multi-user workstations"]]
+          ["cuda", "21,760"],
+          ["vram", ["84GB GDDR7（ECC）", "84GB GDDR7 (ECC)"]],
+          ["band", "1,398 GB/s"],
+          ["iface", "PCIe Gen 5 x16"],
+          ["power", ["最高 600W", "Up to 600W"]],
+          ["size", ["雙槽主動風冷（另有 RXM 液冷版）", "Dual-slot air cooling (RXM liquid-cooled available)"]],
+          ["out", "4 × DisplayPort 2.1b"],
+          ["use", ["大模型推理、代理式 AI、物理仿真、虛擬化多用戶工作站", "LLM inference, agentic AI, physical simulation, virtualized multi-user workstations"]]
         ],
         brands: [
           { brand: "leadtek", name: "NVIDIA RTX PRO 5500 Blackwell（麗臺代理）", img: "rtxpro5500-leadtek.jpg", chips: [["48GB GDDR7"], ["雙槽渦輪", "Dual-slot blower"], ["專業驅動", "Pro drivers"]] },
@@ -286,14 +379,17 @@ var PRODUCTS = [
         id: "rtx-pro-6000",
         name: "RTX PRO 6000",
         tag: ["超大顯存旗艦", "Ultra-Memory Flagship"],
-        brief: "96GB GDDR7 · 600W · 雙槽渦輪",
+        brief: ["96GB GDDR7 · 600W · 雙槽渦輪", "96GB GDDR7 · 600W · Dual-slot blower"],
         specs: [
           ["arch", "NVIDIA RTX PRO Blackwell"],
-          ["vram", "96GB GDDR7"],
+          ["cuda", "24,064"],
+          ["tops", "4,000 AI TOPS"],
+          ["vram", ["96GB GDDR7（ECC）", "96GB GDDR7 (ECC)"]],
+          ["band", "1,792 GB/s"],
           ["iface", "PCIe 5.0 x16"],
           ["power", "600W"],
           ["size", ["雙槽渦輪散熱（工作站版 / 伺服器版）", "Dual-slot blower (workstation / server edition)"]],
-          ["out", "4 × DisplayPort 2.1（工作站版）"],
+          ["out", ["4 × DisplayPort 2.1（工作站版）", "4 × DisplayPort 2.1 (workstation edition)"]],
           ["use", ["超大模型訓練與推理、科學計算、影視級渲染", "Large-model training and inference, scientific computing, film-grade rendering"]]
         ],
         brands: [
@@ -319,7 +415,7 @@ var PRODUCTS = [
         id: "h100",
         name: "NVIDIA H100",
         tag: ["8-GPU 訓練平台", "8-GPU Training Platform"],
-        brief: "8 × H100 80GB HBM3 · NVLink · 8U",
+        brief: ["8 × H100 80GB HBM3 · NVLink · 6U–8U 機型", "8 × H100 80GB HBM3 · NVLink · 6U–8U systems"],
         specs: [
           ["platform", ["NVIDIA HGX H100（8-GPU）", "NVIDIA HGX H100 (8-GPU)"]],
           ["gpu", ["8 × H100 SXM5 80GB HBM3", "8 × H100 SXM5 80GB HBM3"]],
@@ -329,7 +425,7 @@ var PRODUCTS = [
           ["cpu", ["2 × Intel Xeon / AMD EPYC（依整機配置）", "2 × Intel Xeon / AMD EPYC (per system)"]],
           ["mem", ["32 × DDR5 DIMM 插槽", "32 × DDR5 DIMM slots"]],
           ["net", ["InfiniBand NDR 400G / 以太網", "InfiniBand NDR 400G / Ethernet"]],
-          ["chassis", ["8U 機架式", "8U rack"]],
+          ["chassis", ["6U / 8U 機架式（依機型）", "6U / 8U rack (per model)"]],
           ["power", ["約 10kW（滿載，依配置）", "~10kW at full load (per configuration)"]],
           ["cool", ["風冷 / 液冷（依機型）", "Air / liquid cooling (per model)"]],
           ["use", ["大模型預訓練與微調、科學計算、HPC 集群", "LLM pre-training and fine-tuning, scientific computing, HPC clusters"]]
@@ -345,7 +441,7 @@ var PRODUCTS = [
         id: "h200",
         name: "NVIDIA H200",
         tag: ["大顯存推理旗艦", "Large-Memory Inference"],
-        brief: "8 × H200 141GB HBM3e · 4.8TB/s · 8U",
+        brief: ["8 × H200 141GB HBM3e · 4.8TB/s · 5U–8U 機型", "8 × H200 141GB HBM3e · 4.8TB/s · 5U–8U systems"],
         specs: [
           ["platform", ["NVIDIA HGX H200（8-GPU）", "NVIDIA HGX H200 (8-GPU)"]],
           ["gpu", ["8 × H200 SXM 141GB HBM3e", "8 × H200 SXM 141GB HBM3e"]],
@@ -355,7 +451,7 @@ var PRODUCTS = [
           ["cpu", ["2 × Intel Xeon / AMD EPYC（依整機配置）", "2 × Intel Xeon / AMD EPYC (per system)"]],
           ["mem", ["32 × DDR5 DIMM 插槽", "32 × DDR5 DIMM slots"]],
           ["net", ["InfiniBand NDR 400G / 以太網", "InfiniBand NDR 400G / Ethernet"]],
-          ["chassis", ["8U 機架式", "8U rack"]],
+          ["chassis", ["5U / 8U 機架式（依機型）", "5U / 8U rack (per model)"]],
           ["power", ["約 10kW（滿載，依配置）", "~10kW at full load (per configuration)"]],
           ["cool", ["風冷 / 液冷（依機型）", "Air / liquid cooling (per model)"]],
           ["use", ["大模型訓練、長上下文推理、HPC 與科學計算", "LLM training, long-context inference, HPC and scientific computing"]]
@@ -371,11 +467,97 @@ var PRODUCTS = [
   }
 ];
 
+/* ---------- 接入官網抓取的真實圖與規格 ---------- */
+(function mergeRealData() {
+  if (typeof PD_REAL === "undefined") return;
+  var map = {
+    "rtx-5060": "5060",
+    "rtx-5060-ti": "5060Ti",
+    "rtx-5070": "5070",
+    "rtx-5070-ti": "5070Ti",
+    "rtx-5080": "5080",
+    "rtx-5090": "5090"
+  };
+  var order = ["msi", "gigabyte", "asus"];
+  PRODUCTS.forEach(function (cat) {
+    cat.models.forEach(function (model) {
+      var series = map[model.id];
+      var real = series && PD_REAL[series];
+      if (!real) return;
+      var list = [];
+      order.forEach(function (b) {
+        (real[b] || []).forEach(function (v) {
+          list.push({ brand: b, name: v.n, img: v.img, url: v.u, spec: v.s });
+        });
+      });
+      if (list.length) {
+        /* 5090D / 5090D V2 為中國特供型號，本站不做 */
+        if (model.id === "rtx-5090") {
+          list = list.filter(function (v) {
+            return !/5090\s*D(\s*v2)?\b/i.test(v.name);
+          });
+        }
+        if (list.length) {
+          model.real = list;
+          model.brands = null;
+        }
+      }
+    });
+  });
+
+  /* 高端算力卡（NVIDIA 原廠渲染圖） */
+  if (typeof PD_COMPUTE !== "undefined") {
+    PRODUCTS.forEach(function (cat) {
+      cat.models.forEach(function (model) {
+        var items = PD_COMPUTE[model.id];
+        if (!items || !items.length) return;
+        model.real = items.map(function (v) {
+          return { brand: v.brand || "nvidia", name: v.name, img: v.img, url: v.url, chips: v.chips, spec: null };
+        });
+        model.brands = null;
+      });
+    });
+  }
+
+  /* 算力伺服器（整機廠官方產品照） */
+  if (typeof PD_SERVER !== "undefined") {
+    PRODUCTS.forEach(function (cat) {
+      cat.models.forEach(function (model) {
+        var items = PD_SERVER[model.id];
+        if (!items || !items.length) return;
+        model.real = items.map(function (v) {
+          return { brand: v.brand, name: v.name, img: v.img, url: v.url, chips: v.chips, spec: null };
+        });
+        model.brands = null;
+      });
+    });
+  }
+})();
+
+/* 從原廠規格裡挑出用於卡片標籤的關鍵值 */
+function realChips(v) {
+  var s = v.spec || {};
+  var out = [];
+  var mem = s["MEMORY"] || s["記憶體形式"] || ((s["記憶體容量"] || "") + " " + (s["記憶體規格"] || ""));
+  mem = String(mem).replace(/\s+/g, " ").trim();
+  if (mem) out.push([mem]);
+  out.push([/OC|SOC|超頻/i.test(v.name) ? "OC 超頻" : "標準時脈"]);
+  var psu = s["建議電源供應(W)"] || s["建議電源供應"] || s["建議電源供應器"] || s["Recommended PSU"] || s["PSU"];
+  if (psu) out.push(["PSU " + String(psu).replace(/\s+/g, " ").trim()]);
+  return out;
+}
+
 /* ---------- 索引 ---------- */
 var PD_INDEX = {};
 (function buildIndex() {
   PRODUCTS.forEach(function (cat) {
     cat.models.forEach(function (model) {
+      if (model.real) {
+        model.real.forEach(function (v, i) {
+          PD_INDEX[model.id + "-" + v.brand + "-" + i] = { cat: cat, model: model, variant: v };
+        });
+        return;
+      }
       model.brands.forEach(function (v) {
         PD_INDEX[model.id + "-" + v.brand] = { cat: cat, model: model, variant: v };
       });
@@ -433,8 +615,6 @@ function renderProductPage() {
   /* 側欄 / 彈層的雙語靜態文案 */
   var titleEl = document.getElementById("pnavTitle");
   if (titleEl) titleEl.textContent = pdT(PDT.sidebarTitle);
-  var noteEl = document.getElementById("pnavNote");
-  if (noteEl) noteEl.textContent = pdT(PDT.sidebarNote);
   var modalNote = document.getElementById("pmodalNote");
   if (modalNote) modalNote.innerHTML = "<strong>" + escapeHtml(pdT(PDT.modalNoteTitle)) + "</strong>" + escapeHtml(pdT(PDT.modalNote));
   var closeBtn = document.querySelector(".pmodal-close");
@@ -469,25 +649,45 @@ function renderProductPage() {
     panelHtml += "</div>";
 
     cat.models.forEach(function (model) {
+      var variants = model.real || model.brands || [];
       panelHtml += '<article class="model-block" id="' + model.id + '">';
       panelHtml += '<div class="model-head">';
       panelHtml += '<h3 class="model-name">' + escapeHtml(model.name) + "</h3>";
       panelHtml += '<span class="model-tag">' + escapeHtml(pdT(model.tag)) + "</span>";
-      panelHtml += '<span class="model-sub">' + escapeHtml(model.brief) + "</span>";
+      panelHtml += '<span class="model-sub">' + escapeHtml(pdT(model.brief)) + "</span>";
+      if (model.real) {
+        var cntLabel = pdLang() === "en" ? (variants.length === 1 ? "model" : "models") : "款";
+        panelHtml += '<span class="model-count">' + variants.length + " " + escapeHtml(cntLabel) + "</span>";
+      }
       panelHtml += "</div>";
+
+      /* 多品牌時提供品牌篩選 */
+      if (model.real && variants.length > 4) {
+        var counts = {};
+        variants.forEach(function (v) { counts[v.brand] = (counts[v.brand] || 0) + 1; });
+        panelHtml += '<div class="brand-filter" role="group" aria-label="' + escapeHtml(pdT(["品牌篩選", "Filter by brand"])) + '">';
+        panelHtml += '<button type="button" class="is-active" data-brand="all">' + escapeHtml(pdT(["全部", "All"])) + " <i>" + variants.length + "</i></button>";
+        ["msi", "gigabyte", "asus"].forEach(function (b) {
+          if (!counts[b]) return;
+          panelHtml += '<button type="button" data-brand="' + b + '">' + escapeHtml(pdT(PDBRAND[b])) + " <i>" + counts[b] + "</i></button>";
+        });
+        panelHtml += "</div>";
+      }
+
       panelHtml += '<div class="variant-grid">';
 
-      model.brands.forEach(function (v) {
-        var pid = model.id + "-" + v.brand;
-        var path = imgPath(cat.id, v.img);
+      variants.forEach(function (v, vi) {
+        var pid = model.real ? model.id + "-" + v.brand + "-" + vi : model.id + "-" + v.brand;
+        var path = model.real ? v.img : imgPath(cat.id, v.img);
         var alt = pdT(PDBRAND[v.brand]) + " " + v.name;
-        panelHtml += '<button type="button" class="variant-card" data-pid="' + pid + '" aria-haspopup="dialog">';
+        panelHtml += '<button type="button" class="variant-card" data-pid="' + pid + '" data-brand="' + v.brand + '" aria-haspopup="dialog">';
         panelHtml += '<div class="variant-media" data-img="' + escapeHtml(path) + '" data-ph-label="' + escapeHtml(alt) + '"></div>';
         panelHtml += '<div class="variant-body">';
         panelHtml += '<span class="variant-brand">' + escapeHtml(pdT(PDBRAND[v.brand])) + "</span>";
-        panelHtml += '<span class="variant-name">' + escapeHtml(v.name) + "</span>";
+        panelHtml += '<span class="variant-name">' + escapeHtml(String(v.name).replace(/[™®]/g, "")) + "</span>";
+        var chips = model.real && !v.chips ? realChips(v) : v.chips;
         panelHtml += '<div class="variant-chips">';
-        v.chips.forEach(function (c) {
+        chips.forEach(function (c) {
           panelHtml += '<span class="chip">' + escapeHtml(pdT(c)) + "</span>";
         });
         panelHtml += "</div>";
@@ -519,7 +719,29 @@ function renderProductPage() {
     });
   });
 
+  bindBrandFilters(panelBox);
+
   bindProductScrollSpy();
+}
+
+/* ---------- 品牌篩選 ---------- */
+function bindBrandFilters(panelBox) {
+  Array.prototype.forEach.call(panelBox.querySelectorAll(".brand-filter"), function (bar) {
+    var grid = bar.parentNode.querySelector(".variant-grid");
+    if (!grid) return;
+    bar.addEventListener("click", function (e) {
+      var btn = e.target.closest("button[data-brand]");
+      if (!btn) return;
+      var brand = btn.getAttribute("data-brand");
+      Array.prototype.forEach.call(bar.querySelectorAll("button"), function (b) {
+        b.classList.toggle("is-active", b === btn);
+      });
+      Array.prototype.forEach.call(grid.querySelectorAll(".variant-card"), function (card) {
+        var show = brand === "all" || card.getAttribute("data-brand") === brand;
+        card.hidden = !show;
+      });
+    });
+  });
 }
 
 /* ---------- 左側菜單：分類折疊 ---------- */
@@ -610,10 +832,25 @@ function specRows(model, variant) {
   var rows = "";
   rows += "<tr><th>" + escapeHtml(pdT(SP.brand)) + "</th><td>" + escapeHtml(pdT(PDBRAND[variant.brand])) + "</td></tr>";
   rows += "<tr><th>" + escapeHtml(pdT(SP.series)) + "</th><td>" + escapeHtml(model.name) + "</td></tr>";
-  model.specs.forEach(function (pair) {
-    var label = SP[pair[0]] ? pdT(SP[pair[0]]) : pair[0];
-    rows += "<tr><th>" + escapeHtml(label) + "</th><td>" + escapeHtml(pdT(pair[1])) + "</td></tr>";
-  });
+
+  if (variant.spec) {
+    Object.keys(variant.spec).forEach(function (k) {
+      var v = variant.spec[k];
+      if (!v || !String(v).trim()) return;
+      if (k === "MARKETING NAME") return;
+      rows += "<tr><th>" + escapeHtml(pdLabel(k)) + "</th><td>" + escapeHtml(String(v).replace(/\s+/g, " ").trim()) + "</td></tr>";
+    });
+  } else {
+    model.specs.forEach(function (pair) {
+      var label = SP[pair[0]] ? pdT(SP[pair[0]]) : pair[0];
+      rows += "<tr><th>" + escapeHtml(label) + "</th><td>" + escapeHtml(pdT(pair[1])) + "</td></tr>";
+    });
+  }
+
+  if (variant.url) {
+    rows += "<tr><th>" + escapeHtml(pdT(["原廠頁面", "Official Page"])) + '</th><td><a class="spec-link" href="' +
+      escapeHtml(variant.url) + '" target="_blank" rel="noopener">' + escapeHtml(pdT(["查看官網規格", "View official specs"])) + "</a></td></tr>";
+  }
   return rows;
 }
 
@@ -622,7 +859,7 @@ function openProductModal(pid) {
   var modal = document.getElementById("pmodal");
   if (!entry || !modal) return;
   var cat = entry.cat, model = entry.model, v = entry.variant;
-  var path = imgPath(cat.id, v.img);
+  var path = v.img && String(v.img).charAt(0) === "/" ? v.img : imgPath(cat.id, v.img);
 
   var kicker = document.getElementById("pmodalKicker");
   var title = document.getElementById("pmodalTitle");
@@ -631,12 +868,17 @@ function openProductModal(pid) {
   var table = document.getElementById("pmodalTable");
 
   if (kicker) kicker.textContent = pdT(PDT.modalKicker) + " · " + pdT(cat.cat);
-  if (title) title.textContent = v.name;
+  if (title) title.textContent = String(v.name).replace(/[™®]/g, "");
   if (brand) brand.textContent = pdT(PDBRAND[v.brand]) + " · " + model.name;
   if (media) {
     mountProductImage(media, path, pdT(PDBRAND[v.brand]) + " " + v.name, false);
   }
   if (table) table.innerHTML = specRows(model, v);
+  var note = document.getElementById("pmodalNote");
+  if (note) {
+    var noteText = (v.spec || v.url) ? pdT(PDT.srcNote) : pdT(PDT.modalNote);
+    note.innerHTML = "<strong>" + escapeHtml(pdT(PDT.modalNoteTitle)) + "</strong>" + escapeHtml(noteText);
+  }
 
   modal.classList.add("open");
   var closeBtn = modal.querySelector(".pmodal-close");
