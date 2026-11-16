@@ -447,15 +447,18 @@ function renderProductPage() {
     var catName = pdT(cat.cat);
 
     /* 左側菜單 */
-    navHtml += '<div class="pnav-group">';
-    navHtml += '<a class="pnav-cat" href="#cat-' + cat.id + '">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>' +
-      "<span>" + escapeHtml(catName) + "</span></a>";
-    navHtml += '<div class="pnav-items">';
+    navHtml += '<div class="pnav-group" data-cat="' + cat.id + '">';
+    navHtml += '<button type="button" class="pnav-cat pnav-toggle" aria-expanded="false" aria-controls="pnav-' + cat.id + '">' +
+      '<svg class="cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>' +
+      '<span class="pnav-cat-name">' + escapeHtml(catName) + "</span>" +
+      '<span class="pnav-count">' + cat.models.length + "</span>" +
+      '<svg class="pnav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+      "</button>";
+    navHtml += '<div class="pnav-collapse" id="pnav-' + cat.id + '"><div class="pnav-collapse-inner"><div class="pnav-items">';
     cat.models.forEach(function (model) {
       navHtml += '<a href="#' + model.id + '" data-target="' + model.id + '">' + escapeHtml(model.name) + "</a>";
     });
-    navHtml += "</div></div>";
+    navHtml += "</div></div></div></div>";
 
     /* 右側面板 */
     panelHtml += '<section class="product-cat" id="cat-' + cat.id + '">';
@@ -502,6 +505,8 @@ function renderProductPage() {
   navBox.innerHTML = navHtml;
   panelBox.innerHTML = panelHtml;
 
+  bindNavToggles(navBox);
+
   /* 圖片缺失時顯示占位塊，而不是裂圖 */
   Array.prototype.forEach.call(panelBox.querySelectorAll(".variant-media"), function (media) {
     mountProductImage(media, media.getAttribute("data-img"), media.getAttribute("data-ph-label"), true);
@@ -515,6 +520,47 @@ function renderProductPage() {
   });
 
   bindProductScrollSpy();
+}
+
+/* ---------- 左側菜單：分類折疊 ---------- */
+var PD_OPEN_GROUPS = {};
+
+function setNavGroupOpen(group, open) {
+  if (!group) return;
+  var btn = group.querySelector(".pnav-toggle");
+  var panel = group.querySelector(".pnav-collapse");
+  if (!btn || !panel) return;
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+  panel.classList.toggle("open", open);
+  var cat = group.getAttribute("data-cat");
+  if (cat) PD_OPEN_GROUPS[cat] = !!open;
+}
+
+function expandNavGroupByTarget(navBox, hash) {
+  if (!navBox) return;
+  hash = (hash || "").replace("#", "");
+  if (!hash) return;
+  var group = navBox.querySelector('.pnav-group[data-cat="' + hash.replace("cat-", "") + '"]');
+  if (!group) {
+    var link = navBox.querySelector('.pnav-items a[data-target="' + hash + '"]');
+    if (link) group = link.closest(".pnav-group");
+  }
+  setNavGroupOpen(group, true);
+}
+
+function bindNavToggles(navBox) {
+  Array.prototype.forEach.call(navBox.querySelectorAll(".pnav-toggle"), function (btn) {
+    var group = btn.closest(".pnav-group");
+    var cat = group.getAttribute("data-cat");
+    /* 切換語言重繪時保留使用者的展開狀態 */
+    if (PD_OPEN_GROUPS[cat]) setNavGroupOpen(group, true);
+    btn.addEventListener("click", function () {
+      setNavGroupOpen(group, btn.getAttribute("aria-expanded") !== "true");
+    });
+  });
+
+  /* 由 URL hash 決定預設展開哪個分類（#cat-compute 或 #rtx-5090） */
+  expandNavGroupByTarget(navBox, location.hash);
 }
 
 /* ---------- 左側菜單跟隨捲動高亮 ---------- */
@@ -613,5 +659,10 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("tyhs:langchange", function () {
     closeProductModal();
     renderProductPage();
+  });
+
+  /* 同頁 hash 變更時同步展開對應分類 */
+  window.addEventListener("hashchange", function () {
+    expandNavGroupByTarget(document.getElementById("productNavGroups"), location.hash);
   });
 });
