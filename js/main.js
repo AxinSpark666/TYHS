@@ -12,6 +12,7 @@ var I18N = {
     "t.about": "About Us - Tianyuan AI Solution",
     "t.services": "Services - Tianyuan AI Solution",
     "t.contact": "Contact Us - Tianyuan AI Solution",
+    "t.products": "Products - Tianyuan AI Solution",
 
     /* Brand */
     "brand.name": "Tianyuan AI Solution",
@@ -22,6 +23,7 @@ var I18N = {
     "nav.about": "About Us",
     "nav.services": "Services",
     "nav.contact": "Contact Us",
+    "nav.products": "Products",
 
     /* Home hero */
     "hero.kicker": "High-Performance Computing · Powering the Future",
@@ -88,6 +90,13 @@ var I18N = {
     "bc.about": "About Us",
     "bc.services": "Services",
     "bc.contact": "Contact Us",
+    "bc.products": "Products",
+
+    /* Products page */
+    "pr.hero.kicker": "PRODUCTS",
+    "pr.hero.title": "Product Center",
+    "pr.hero.sub": "Gaming graphics cards, high-end compute GPUs and AI computing servers, available in multiple brand versions",
+    "pr.hint": "The models and brand versions above are our common supply range. For other models, full-system configurations or volume orders, please contact us.",
 
     /* About page */
     "about.hero.kicker": "About Us",
@@ -167,6 +176,7 @@ var I18N = {
     "t.about": "關於我們 - 天元匯算",
     "t.services": "服務範圍 - 天元匯算",
     "t.contact": "聯絡我們 - 天元匯算",
+    "t.products": "產品中心 - 天元匯算",
 
     /* 品牌 */
     "brand.name": "天元匯算",
@@ -177,6 +187,7 @@ var I18N = {
     "nav.about": "關於我們",
     "nav.services": "服務範圍",
     "nav.contact": "聯絡我們",
+    "nav.products": "產品中心",
 
     /* 首頁橫幅 */
     "hero.kicker": "專業算力 · 匯算未來",
@@ -243,6 +254,13 @@ var I18N = {
     "bc.about": "關於我們",
     "bc.services": "服務範圍",
     "bc.contact": "聯絡我們",
+    "bc.products": "產品中心",
+
+    /* 產品頁 */
+    "pr.hero.kicker": "產品中心",
+    "pr.hero.title": "產品中心",
+    "pr.hero.sub": "涵蓋遊戲顯示卡、高端算力顯示卡與算力伺服器整機，多品牌版本可選",
+    "pr.hint": "以上為常用型號與品牌版本，如需其他型號、整機配置或批量供貨，歡迎與我們聯絡。",
 
     /* 關於頁 */
     "about.hero.kicker": "關於我們",
@@ -385,6 +403,9 @@ function applyLang(lang) {
 function switchLang(lang) {
   applyLang(lang);
   document.documentElement.style.transition = "opacity .25s";
+  try {
+    document.dispatchEvent(new CustomEvent("tyhs:langchange", { detail: lang }));
+  } catch (e) {}
 }
 
 /* ---------- 初始化 ---------- */
