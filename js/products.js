@@ -536,6 +536,12 @@ function setNavGroupOpen(group, open) {
   if (cat) PD_OPEN_GROUPS[cat] = !!open;
 }
 
+function closeOtherGroups(navBox, keepGroup) {
+  Array.prototype.forEach.call(navBox.querySelectorAll(".pnav-group"), function (g) {
+    if (g !== keepGroup) setNavGroupOpen(g, false);
+  });
+}
+
 function expandNavGroupByTarget(navBox, hash) {
   if (!navBox) return;
   hash = (hash || "").replace("#", "");
@@ -545,6 +551,8 @@ function expandNavGroupByTarget(navBox, hash) {
     var link = navBox.querySelector('.pnav-items a[data-target="' + hash + '"]');
     if (link) group = link.closest(".pnav-group");
   }
+  if (!group) return;
+  closeOtherGroups(navBox, group);
   setNavGroupOpen(group, true);
 }
 
@@ -555,7 +563,10 @@ function bindNavToggles(navBox) {
     /* 切換語言重繪時保留使用者的展開狀態 */
     if (PD_OPEN_GROUPS[cat]) setNavGroupOpen(group, true);
     btn.addEventListener("click", function () {
-      setNavGroupOpen(group, btn.getAttribute("aria-expanded") !== "true");
+      var open = btn.getAttribute("aria-expanded") !== "true";
+      /* 手風琴效果：展開一個分類時，收起其他已展開的分類 */
+      if (open) closeOtherGroups(navBox, group);
+      setNavGroupOpen(group, open);
     });
   });
 
