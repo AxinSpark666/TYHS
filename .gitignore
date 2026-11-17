@@ -12,6 +12,9 @@ images/brands-new.png
 # 改版备份目录（本地回滚用，不推送）
 _backup/
 
+# 主体信息草稿（个人整理件，不推送）
+深圳市天元汇算科技有限公司.txt
+
 # 系统与临时文件
 Thumbs.db
 .DS_Store

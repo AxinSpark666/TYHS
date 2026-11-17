@@ -1,0 +1,254 @@
+/* ==========================================================================
+   站点入口页（根路径 /）：左右双入口卡片
+   依赖 css/style.css 的 token（--bg --text --dim --accent --border 等）
+   ========================================================================== */
+
+body.gate {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg, #000);
+  color: var(--text, #e9e9ee);
+  overflow-x: hidden;
+}
+
+/* 背景特效层：网络在下、流光在上，均不接收指针 */
+/* body.gate 自带深色底，负层级会压到背景之下，这里改用 0 层并让内容层抬到 1 层 */
+body.gate .page-net,
+body.gate .page-flow {
+  z-index: 0;
+}
+
+.page-flow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.page-flow canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0.9;
+}
+
+/* 内容层压在特效之上 */
+.gate-head,
+.gate-main,
+.gate-foot {
+  position: relative;
+  z-index: 1;
+}
+
+/* 顶部条 */
+.gate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px clamp(20px, 5vw, 64px) 0;
+  flex-wrap: wrap;
+}
+
+.gate-brand { display: inline-flex; align-items: center; gap: 11px; }
+
+.gate-mark {
+  width: 38px; height: 38px;
+  display: block;
+  object-fit: contain;
+}
+
+.gate-brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+.gate-brand-name { font-size: 17px; font-weight: 600; letter-spacing: 0.01em; }
+.gate-brand-sub {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim, #8a8b93);
+  font-weight: 500;
+}
+
+.gate-note {
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: #6f7078;
+}
+
+/* 双入口 */
+.gate-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(18px, 2.6vw, 38px);
+  padding: clamp(28px, 5vh, 72px) clamp(20px, 5vw, 64px);
+  min-height: 0;
+}
+
+/* 悬浮卡片 */
+.gate-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: clamp(30px, 3.4vw, 48px) clamp(24px, 3.2vw, 44px);
+  border: 1px solid var(--border, #242429);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(8, 8, 11, 0.84);
+  backdrop-filter: none;
+  transition:
+    transform 0.45s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color 0.45s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow 0.45s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.gate-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  background: radial-gradient(78% 62% at 50% 46%, rgba(139, 146, 255, 0.13), rgba(0, 0, 0, 0) 72%);
+}
+
+.gate-card:hover,
+.gate-card:focus-within {
+  transform: translateY(-5px);
+  border-color: rgba(139, 146, 255, 0.42);
+  box-shadow: 0 22px 55px -28px rgba(96, 104, 255, 0.55), 0 2px 0 rgba(255, 255, 255, 0.05) inset;
+}
+
+.gate-card:hover::after,
+.gate-card:focus-within::after { opacity: 1; }
+
+.gate-lang {
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  color: var(--accent, #8b92ff);
+  font-weight: 500;
+}
+
+.gate-name {
+  font-size: clamp(21px, 2.2vw, 32px);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  max-width: 16em;
+}
+
+.gate-name-en {
+  font-family: var(--font, Ubuntu, sans-serif);
+  font-size: 12.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--dim, #8a8b93);
+  margin-top: -6px;
+  max-width: 30em;
+}
+
+.gate-addr {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: #a2a3ab;
+  max-width: 30em;
+  margin-top: 4px;
+}
+
+.gate-addr svg {
+  width: 15px; height: 15px;
+  flex-shrink: 0;
+  margin-top: 5px;
+  color: var(--accent, #8b92ff);
+}
+
+/* 入口按钮：只有点击按钮才跳转 */
+.gate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  margin-top: 20px;
+  padding: 12px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white, #fff);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background 0.3s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color 0.3s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    color 0.3s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.gate-btn svg {
+  width: 16px; height: 16px;
+  transition: transform 0.35s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.gate-btn:hover,
+.gate-btn:focus-visible {
+  background: var(--white, #fff);
+  border-color: var(--white, #fff);
+  color: #0b0b10;
+}
+
+.gate-btn:hover svg,
+.gate-btn:focus-visible svg { transform: translateX(5px); }
+
+.gate-btn svg path,
+.gate-btn svg line,
+.gate-btn svg polyline { stroke: currentColor; }
+
+/* 底部条 */
+.gate-foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 22px clamp(20px, 5vw, 64px) 28px;
+  border-top: 1px solid var(--border, #242429);
+  font-size: 12.5px;
+  color: #6f7078;
+}
+
+.gate-foot a { color: #a2a3ab; transition: color 0.25s; }
+.gate-foot a:hover { color: var(--white, #fff); }
+
+.gate-foot-sep {
+  width: 1px; height: 13px;
+  background: var(--border, #242429);
+}
+
+/* 窄屏：上下堆叠 */
+@media (max-width: 820px) {
+  .gate-main {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 22px 18px 30px;
+  }
+
+  .gate-head { padding-top: 20px; }
+  .gate-name { font-size: 20px; }
+  .gate-name-en { font-size: 11px; letter-spacing: 0.1em; }
+  .gate-addr { font-size: 13px; }
+  .gate-card { padding: 26px 22px; border-radius: 14px; }
+  .gate-btn { margin-top: 16px; padding: 11px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-card,
+  .gate-card::after,
+  .gate-btn,
+  .gate-btn svg { transition: none; }
+  .gate-card:hover { transform: none; }
+}

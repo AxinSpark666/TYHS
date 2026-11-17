@@ -420,14 +420,35 @@ document.addEventListener("DOMContentLoaded", function () {
   var langCurrent = document.getElementById("langCurrent");
   var langOpts = document.querySelectorAll(".lang-menu li");
   if (langSelect && langCurrent) {
+    var langMenu = langSelect.querySelector(".lang-menu");
+    var langChev = langCurrent.querySelector(".chev");
+    var openLangMenu = function () {
+      langSelect.classList.add("open");
+      if (langMenu) {
+        langMenu.style.visibility = "visible";
+        langMenu.style.opacity = "1";
+        langMenu.style.transform = "none";
+      }
+      if (langChev) langChev.style.transform = "rotate(180deg)";
+      langCurrent.setAttribute("aria-expanded", "true");
+    };
     var closeLangMenu = function () {
       langSelect.classList.remove("open");
+      if (langMenu) {
+        langMenu.style.visibility = "hidden";
+        langMenu.style.opacity = "0";
+        langMenu.style.transform = "translateY(-6px)";
+      }
+      if (langChev) langChev.style.transform = "";
       langCurrent.setAttribute("aria-expanded", "false");
     };
     langCurrent.addEventListener("click", function (e) {
       e.stopPropagation();
-      var isOpen = langSelect.classList.toggle("open");
-      langCurrent.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      if (langSelect.classList.contains("open")) {
+        closeLangMenu();
+      } else {
+        openLangMenu();
+      }
     });
     for (var o = 0; o < langOpts.length; o++) {
       langOpts[o].addEventListener("click", function () {
@@ -492,16 +513,21 @@ document.addEventListener("DOMContentLoaded", function () {
   var prefersReducedMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* 滚动入场（ScrollReveal；库未加载时不隐藏任何内容） */
-  if (window.ScrollReveal && !prefersReducedMotion) {
-    var sr = ScrollReveal({
-      duration: 720,
-      distance: "26px",
-      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-      opacity: 0,
-      reset: false
-    });
-    sr.reveal(".reveal", { interval: 60 });
+  /* 滚动入场：元素进入视口时播放一次淡入上移（scroll + rect 检测，不依赖外部库） */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (revealEls.length && !prefersReducedMotion) {
+    var revealTick = function () {
+      for (var i = revealEls.length - 1; i >= 0; i--) {
+        var rect = revealEls[i].getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 40) {
+          revealEls[i].classList.add("is-in");
+          revealEls.splice(i, 1);
+        }
+      }
+    };
+    revealTick();
+    window.addEventListener("scroll", revealTick, { passive: true });
+    window.addEventListener("resize", revealTick);
   }
 
   /* 品牌墙：两行错位无缝横滚；第二行反向；减弱动效时保持静态网格 */

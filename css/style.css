@@ -1303,3 +1303,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   滚动入场（本地 IntersectionObserver 实现，无外部依赖）
+   内容默认始终可见，仅在进入视口时播放一次淡入上移动画；
+   JS 未执行 / 不支持 IO 时不播放动画也不会隐藏内容
+   ========================================================================== */
+.js .reveal.is-in {
+  animation: reveal-in 0.72s var(--ease) both;
+}
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal.is-in { animation: none; }
+}
+
+/* 三张联系方式卡片的排布（深圳站：邮箱 / 深圳地址 / 香港地址） */
+@media (min-width: 900px) {
+  .contact-cards.three { grid-template-columns: repeat(3, 1fr); }
+}
