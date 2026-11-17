@@ -538,52 +538,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* 首页封面：3D 跟随倾斜（仅桌面端启用；移动端与减弱动效时静态展示） */
-  var heroTilt = document.getElementById("heroTilt");
-  var desktopWide =
-    window.matchMedia && window.matchMedia("(min-width: 1024px)").matches;
-  if (heroTilt && window.Atropos && !prefersReducedMotion && desktopWide) {
-    new Atropos({
-      el: heroTilt,
-      rotateXMax: 8,
-      rotateYMax: 10,
-      shadow: false,
-      highlight: false,
-      activeOffset: 40,
-      duration: 250
-    });
-  }
-
-  /* 首屏氛围背景：克制的网络粒子；减弱动效/库缺失时保持静态深色 */
-  var heroBg = document.querySelector(".hero-home");
-  if (heroBg && window.VANTA && window.THREE && !prefersReducedMotion) {
-    try {
-      var net = window.VANTA.NET({
-        el: heroBg,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 0,
-        minWidth: 0,
-        color: 0xa4a9ff,
-        color2: 0x74e6e4,
-        backgroundColor: 0x000000,
-        points: 10,
-        maxDistance: 22,
-        spacing: 14
-      });
-      if (net && "IntersectionObserver" in window) {
-        var heroIo = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) { if (net.resume) net.resume(); }
-            else { if (net.pause) net.pause(); }
-          });
-        }, { threshold: 0.04 });
-        heroIo.observe(heroBg);
-      }
-    } catch (bgErr) {
-      /* 渲染失败时沿用深色渐变静态背景 */
-    }
-  }
+  /* 首页全页网络背景改由 js/hero-net.js 自绘（支持端点呼吸灯） */
 
 });
