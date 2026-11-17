@@ -464,6 +464,17 @@ var PRODUCTS = [
         ]
       }
     ]
+  },
+
+  /* 4. 伺服器記憶體（產品內容整理中，暫不上架） */
+  {
+    id: "memory",
+    cat: ["伺服器記憶體", "Server Memory"],
+    desc: [
+      "企業級伺服器記憶體，涵蓋主流規格、容量與頻率，支援兼容性驗證與選型建議。型號與規格資料整理中，陸續上架。",
+      "Enterprise-grade server memory covering mainstream specs, capacities and speeds, with compatibility verification and selection advice. Model data is being prepared."
+    ],
+    models: []
   }
 ];
 
@@ -635,6 +646,9 @@ function renderProductPage() {
       '<svg class="pnav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
       "</button>";
     navHtml += '<div class="pnav-collapse" id="pnav-' + cat.id + '"><div class="pnav-collapse-inner"><div class="pnav-items">';
+    if (!cat.models.length) {
+      navHtml += '<span class="pnav-empty">' + escapeHtml(pdT(["內容整理中", "Coming soon"])) + "</span>";
+    }
     cat.models.forEach(function (model) {
       navHtml += '<a href="#' + model.id + '" data-target="' + model.id + '">' + escapeHtml(model.name) + "</a>";
     });
@@ -698,6 +712,15 @@ function renderProductPage() {
 
       panelHtml += "</div></article>";
     });
+
+    if (!cat.models.length) {
+      panelHtml += '<div class="cat-empty">';
+      panelHtml += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="10" rx="1"/><path d="M9 7v10M15 7v10M7 17v3M12 17v3M17 17v3"/></svg>';
+      panelHtml += "<strong>" + escapeHtml(pdT(["產品內容整理中，即將上線", "Product data is being prepared"])) + "</strong>";
+      panelHtml += "<span>" + escapeHtml(pdT(["如需規格與選型建議，歡迎來信", "For specs and selection advice, please email"])) +
+        ' <a href="mailto:info@tyhs.hk">info@tyhs.hk</a></span>';
+      panelHtml += "</div>";
+    }
 
     panelHtml += "</section>";
   });

@@ -68,6 +68,8 @@ var I18N = {
     "sv5.d": "Hardware installation, compatibility verification, after-sales support and maintenance to ensure stable long-term operation.",
     "sv6.t": "Expansion & Upgrade",
     "sv6.d": "Server computing expansion, hardware upgrades and component supply to continuously improve computing power at optimized cost.",
+    "svpage.link.p": "Products",
+    "svpage.link.c": "Contact Us",
 
     /* Why choose us */
     "why.kicker": "Why Choose Us",
@@ -96,7 +98,7 @@ var I18N = {
     /* Products page */
     "pr.hero.kicker": "PRODUCTS",
     "pr.hero.title": "Product Center",
-    "pr.hero.sub": "Gaming graphics cards, high-end compute GPUs and AI computing servers, available in multiple brand versions",
+    "pr.hero.sub": "Gaming graphics cards, high-end compute GPUs, AI computing servers and server memory, available in multiple brand versions",
     "pr.hint": "The models and brand versions above are our common supply range. For other models, full-system configurations or volume orders, please contact us.",
 
     /* About page */
@@ -233,6 +235,8 @@ var I18N = {
     "sv5.d": "提供硬件安裝調試、兼容性驗證、售後技術支援與維保服務，確保設備穩定長期運行。",
     "sv6.t": "擴容與升級",
     "sv6.d": "提供伺服器算力擴容、硬件升級與配件供應服務，幫助客戶以更優成本持續提升算力。",
+    "svpage.link.p": "產品中心",
+    "svpage.link.c": "聯絡我們",
 
     /* 為何選擇我們 */
     "why.kicker": "為何選擇我們",
