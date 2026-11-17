@@ -379,7 +379,7 @@ var PRODUCTS = [
         id: "rtx-pro-6000",
         name: "RTX PRO 6000",
         tag: ["超大顯存旗艦", "Ultra-Memory Flagship"],
-        brief: ["96GB GDDR7 · 600W · 雙槽渦輪", "96GB GDDR7 · 600W · Dual-slot blower"],
+        brief: ["96GB GDDR7 ECC · 300–600W · 工作站 / 伺服器 / Max-Q", "96GB GDDR7 ECC · 300–600W · Workstation / Server / Max-Q"],
         specs: [
           ["arch", "NVIDIA RTX PRO Blackwell"],
           ["cuda", "24,064"],
@@ -512,7 +512,7 @@ var PRODUCTS = [
         var items = PD_COMPUTE[model.id];
         if (!items || !items.length) return;
         model.real = items.map(function (v) {
-          return { brand: v.brand || "nvidia", name: v.name, img: v.img, url: v.url, chips: v.chips, spec: null };
+          return { brand: v.brand || "nvidia", name: v.name, img: v.img, url: v.url, chips: v.chips, spec: v.spec || null };
         });
         model.brands = null;
       });
@@ -834,11 +834,16 @@ function specRows(model, variant) {
   rows += "<tr><th>" + escapeHtml(pdT(SP.series)) + "</th><td>" + escapeHtml(model.name) + "</td></tr>";
 
   if (variant.spec) {
-    Object.keys(variant.spec).forEach(function (k) {
-      var v = variant.spec[k];
+    /* 支持兩種寫法：{ "KEY": "value" } 與 [["key", "value"], ...] */
+    var pairs = Array.isArray(variant.spec)
+      ? variant.spec
+      : Object.keys(variant.spec).map(function (k) { return [k, variant.spec[k]]; });
+    pairs.forEach(function (p) {
+      var k = p[0], v = p[1];
       if (!v || !String(v).trim()) return;
       if (k === "MARKETING NAME") return;
-      rows += "<tr><th>" + escapeHtml(pdLabel(k)) + "</th><td>" + escapeHtml(String(v).replace(/\s+/g, " ").trim()) + "</td></tr>";
+      var label = SP[k] ? pdT(SP[k]) : pdLabel(k);
+      rows += "<tr><th>" + escapeHtml(label) + "</th><td>" + escapeHtml(String(pdT(v)).replace(/\s+/g, " ").trim()) + "</td></tr>";
     });
   } else {
     model.specs.forEach(function (pair) {

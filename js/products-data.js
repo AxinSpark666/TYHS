@@ -24,10 +24,60 @@ var PD_COMPUTE = {
   "rtx-pro-6000": [
     {
       brand: "nvidia",
-      name: "NVIDIA RTX PRO 6000 Blackwell 96GB",
+      name: "NVIDIA RTX PRO 6000 Blackwell Workstation Edition 96GB",
       img: "/images/products/compute/nvidia-rtx-pro-6000-blackwell.png",
       url: "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000/",
-      chips: [["96GB GDDR7"], ["600W"], ["4,000 TOPS"]]
+      chips: [["96GB GDDR7 ECC"], ["600W"], ["4,000 TOPS"]],
+      spec: [
+        ["arch", "NVIDIA Blackwell"],
+        ["cuda", "24,064"],
+        ["tops", ["4,000 AI TOPS（FP4）", "4,000 AI TOPS (FP4)"]],
+        ["vram", ["96GB GDDR7（ECC）", "96GB GDDR7 (ECC)"]],
+        ["band", ["1,792 GB/s", "1,792 GB/s"]],
+        ["iface", "PCIe 5.0 x16"],
+        ["power", "600W"],
+        ["size", ["雙流式散熱・雙槽 FHFL（5.4\" × 12\"）", "Double flow-through, dual-slot FHFL (5.4\" × 12\")"]],
+        ["out", ["4 × DisplayPort 2.1b", "4 × DisplayPort 2.1b"]],
+        ["use", ["單卡工作站：大模型微調、3D 渲染、即時模擬", "Single-GPU workstation: LLM fine-tuning, 3D rendering, real-time simulation"]]
+      ]
+    },
+    {
+      brand: "nvidia",
+      name: "NVIDIA RTX PRO 6000 Blackwell Server Edition 96GB",
+      img: "/images/products/compute/nvidia-rtx-pro-6000-server-blackwell.jpg",
+      url: "https://www.nvidia.com/en-us/data-center/rtx-pro-6000-blackwell-server-edition/",
+      chips: [["96GB GDDR7 ECC"], ["400–600W"], ["被動散熱", "Passive"]],
+      spec: [
+        ["arch", "NVIDIA Blackwell"],
+        ["cuda", "24,064"],
+        ["tops", ["4 PFLOPS（FP4 Tensor，稠密）", "4 PFLOPS FP4 Tensor (dense)"]],
+        ["vram", ["96GB GDDR7（ECC）", "96GB GDDR7 (ECC)"]],
+        ["band", ["1,597 GB/s", "1,597 GB/s"]],
+        ["iface", "PCIe 5.0 x16"],
+        ["power", ["400–600W（可配置）", "400–600W (configurable)"]],
+        ["size", ["被動散熱・雙槽 FHFL（4.4\" × 10.5\"）", "Passive, dual-slot FHFL (4.4\" × 10.5\")"]],
+        ["out", ["4 × DisplayPort 2.1", "4 × DisplayPort 2.1"]],
+        ["use", ["多卡伺服器 24×7 部署：AI 推理、微調、分散式渲染、HPC、vGPU 虛擬工作站", "24×7 multi-GPU servers: AI inference, fine-tuning, distributed rendering, HPC, vGPU virtual workstations"]]
+      ]
+    },
+    {
+      brand: "nvidia",
+      name: "NVIDIA RTX PRO 6000 Blackwell Max-Q 96GB",
+      img: "/images/products/compute/nvidia-rtx-pro-6000-maxq-blackwell.jpg",
+      url: "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000-max-q/",
+      chips: [["96GB GDDR7 ECC"], ["300W"], ["雙槽主動散熱", "Dual-slot active"]],
+      spec: [
+        ["arch", "NVIDIA Blackwell"],
+        ["cuda", "24,064"],
+        ["tops", ["3,511 AI TOPS（FP4）", "3,511 AI TOPS (FP4)"]],
+        ["vram", ["96GB GDDR7（ECC）", "96GB GDDR7 (ECC)"]],
+        ["band", ["1,792 GB/s", "1,792 GB/s"]],
+        ["iface", "PCIe 5.0 x16"],
+        ["power", "300W"],
+        ["size", ["主動散熱・雙槽 FHFL（4.4\" × 10.5\"）", "Active, dual-slot FHFL (4.4\" × 10.5\")"]],
+        ["out", ["4 × DisplayPort 2.1b", "4 × DisplayPort 2.1b"]],
+        ["use", ["高密度工作站：單機最多 4 卡，384GB 合併顯存，分散式渲染與多實例 AI", "Dense workstations: up to 4 GPUs per system, 384GB combined memory, distributed rendering and multi-instance AI"]]
+      ]
     }
   ]
 };
