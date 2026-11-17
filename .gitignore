@@ -9,6 +9,9 @@ images/brands-new.png
 # 本地预览脚本（依赖本机端口，不推送）
 本地预览.bat
 
+# 改版备份目录（本地回滚用，不推送）
+_backup/
+
 # 系统与临时文件
 Thumbs.db
 .DS_Store

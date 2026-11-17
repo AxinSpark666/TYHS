@@ -27,7 +27,8 @@ var I18N = {
 
     /* Home hero */
     "hero.kicker": "High-Performance Computing · Powering the Future",
-    "hero.title": "Your Trusted High-End Computing Hardware Partner",
+    "hero.title": "Your Trusted High-End",
+    "hero.title2": "Computing Hardware Partner",
     "hero.sub": "Tianyuan AI Solution specializes in the sales and technical services of high-end computing GPU cards, server memory modules and computing servers, empowering your business with professionalism and integrity.",
     "hero.btn1": "Learn More",
     "hero.btn2": "Contact Us",
@@ -191,7 +192,8 @@ var I18N = {
 
     /* 首頁橫幅 */
     "hero.kicker": "專業算力 · 匯算未來",
-    "hero.title": "值得信賴的高端算力硬件供應夥伴",
+    "hero.title": "值得信賴的高端算力",
+    "hero.title2": "硬件供應夥伴",
     "hero.sub": "天元匯算專注高端算力顯示卡、伺服器記憶體與算力伺服器整機的銷售及技術服務，以專業與誠信助力企業智能化發展。",
     "hero.btn1": "了解更多",
     "hero.btn2": "聯絡我們",
@@ -563,11 +565,11 @@ document.addEventListener("DOMContentLoaded", function () {
         gyroControls: false,
         minHeight: 0,
         minWidth: 0,
-        color: 0x4da69a,
-        color2: 0x2f6f8f,
-        backgroundColor: 0x0b1626,
-        points: 11,
-        maxDistance: 19,
+        color: 0xa4a9ff,
+        color2: 0x74e6e4,
+        backgroundColor: 0x000000,
+        points: 10,
+        maxDistance: 22,
         spacing: 14
       });
       if (net && "IntersectionObserver" in window) {
