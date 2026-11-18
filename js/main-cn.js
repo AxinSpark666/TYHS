@@ -107,6 +107,49 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  /* 语言切换：简体留在本站；繁體 / English 跳转香港站对应页面 */
+  var langSelect = document.getElementById("langSelect");
+  var langCurrent = document.getElementById("langCurrent");
+  if (langSelect && langCurrent) {
+    var langMenu = langSelect.querySelector(".lang-menu");
+    var langChev = langCurrent.querySelector(".chev");
+    var openLangMenu = function () {
+      langSelect.classList.add("open");
+      langCurrent.setAttribute("aria-expanded", "true");
+      if (langChev) langChev.style.transform = "rotate(180deg)";
+    };
+    var closeLangMenu = function () {
+      langSelect.classList.remove("open");
+      langCurrent.setAttribute("aria-expanded", "false");
+      if (langChev) langChev.style.transform = "";
+    };
+    langCurrent.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (langSelect.classList.contains("open")) closeLangMenu();
+      else openLangMenu();
+    });
+    var langOpts = langSelect.querySelectorAll(".lang-menu li");
+    for (var o = 0; o < langOpts.length; o++) {
+      langOpts[o].addEventListener("click", function () {
+        var lang = this.getAttribute("data-lang");
+        closeLangMenu();
+        if (lang === "hans") return;
+        try {
+          localStorage.setItem("tyhs_lang", lang);
+        } catch (e) {}
+        var to = window.location.pathname.replace(/^\/cn/, "/hk");
+        if (to.indexOf("/hk") !== 0) to = "/hk/";
+        window.location.href = to + window.location.hash;
+      });
+    }
+    document.addEventListener("click", function (e) {
+      if (!langSelect.contains(e.target)) closeLangMenu();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeLangMenu();
+    });
+  }
+
   /* 首页全页网络背景改由 js/hero-net.js 自绘（支持端点呼吸灯） */
 
 });

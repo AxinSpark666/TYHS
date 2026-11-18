@@ -406,7 +406,21 @@ function applyLang(lang) {
   } catch (e) {}
 }
 
+/* 简体中文属于深圳站，需整页跳转 */
+function goToSite(prefix, lang) {
+  try {
+    localStorage.setItem("tyhs_lang", lang);
+  } catch (e) {}
+  var to = window.location.pathname.replace(/^\/hk/, prefix);
+  if (to.indexOf(prefix) !== 0) to = prefix === "/cn" ? "/cn/" : "/hk/";
+  window.location.href = to + window.location.hash;
+}
+
 function switchLang(lang) {
+  if (lang === "hans") {
+    goToSite("/cn", "cn");
+    return;
+  }
   applyLang(lang);
   document.documentElement.style.transition = "opacity .25s";
   try {
