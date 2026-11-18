@@ -61,7 +61,13 @@ var SP = {
   cool: ["散热方式", "Cooling"],
   brand: ["品牌", "Brand"],
   series: ["所属系列", "Series"],
-  status: ["供货状态", "Availability"]
+  status: ["供货状态", "Availability"],
+  form: ["模组形态", "Module Type"],
+  capacity: ["容量", "Capacity"],
+  speed: ["速率", "Speed"],
+  voltage: ["电压", "Voltage"],
+  org: ["组织结构", "Organization"],
+  cl: ["时序（CAS Latency）", "CAS Latency"]
 };
 
 /* ---------- 原厂规格字段双语标签 ---------- */
@@ -154,6 +160,8 @@ var PDBRAND = {
   leadtek: ["丽台 LeadTek", "Leadtek"],
   pny: ["PNY", "PNY"],
   nvidia: ["NVIDIA 原厂", "NVIDIA"],
+  samsung: ["三星 SAMSUNG", "Samsung"],
+  micron: ["美光 Micron", "Micron"],
   dell: ["Dell", "Dell"],
   supermicro: ["Supermicro", "Supermicro"]
 };
@@ -462,15 +470,218 @@ var PRODUCTS = [
     ]
   },
 
-  /* 4. 服务器内存条（产品内容整理中，暂不上架） */
+  /* 4. 服务器内存条（三星 DDR5 模组） */
   {
     id: "memory",
     cat: ["服务器内存条", "Server Memory"],
     desc: [
-      "企业级服务器内存条，涵盖主流规格、容量与频率，支持兼容性验证与选型建议。型号与规格资料整理中，陆续上架。",
-      "Enterprise-grade server memory covering mainstream specs, capacities and speeds, with compatibility verification and selection advice. Model data is being prepared."
+      "企业级与工作站 DDR5 内存模组，涵盖 RDIMM、MRDIMM、UDIMM、ECC UDIMM、SODIMM 与 ECC SODIMM 六种形态；容量与速率按平台需求选配，可提供兼容性验证与选型建议。产品图片来源：Samsung 与 Micron 官方产品图库，Micron 图片版权归 Micron Technology, Inc. 所有。",
+      "DDR5 memory modules for servers and workstations, covering RDIMM, MRDIMM, UDIMM, ECC UDIMM, SODIMM and ECC SODIMM. Capacities and speeds are configured to your platform, with compatibility verification and selection advice. Product images courtesy of Samsung and Micron official galleries; Micron images © Micron Technology, Inc."
     ],
-    models: []
+    models: [
+      {
+        id: "ddr5-rdimm",
+        name: "DDR5 RDIMM",
+        tag: ["服务器已注册 DIMM", "Registered DIMM"],
+        brief: ["最高 256GB · 8,000 Mbps · 1.1V", "Up to 256GB · 8,000 Mbps · 1.1V"],
+        specs: [
+          ["form", ["已注册 DIMM（带缓冲）", "Registered DIMM (buffered)"]],
+          ["capacity", ["最高 256GB", "Up to 256GB"]],
+          ["speed", ["最高 8,000 Mbps", "Up to 8,000 Mbps"]],
+          ["voltage", ["1.1V", "1.1V"]],
+          ["org", ["x4 / x8，单列与多列", "x4 / x8, single & multi-rank"]],
+          ["use", ["企业级服务器：云端、数据库与虚拟化等长稳运行负载", "Enterprise servers: cloud, database and virtualization workloads"]],
+        ],
+        real: [
+          {
+            brand: "samsung",
+            name: "Samsung DDR5 RDIMM（已注册）",
+            img: "/images/products/memory/samsung-ddr5-rdimm.png",
+            url: "https://semiconductor.samsung.com/dram/ddr/",
+            chips: [["最高 256GB", "Up to 256GB"], ["最高 8,000 Mbps", "Up to 8,000 Mbps"], ["1.1V", "1.1V"]]
+          },
+          {
+            brand: "micron",
+            name: "Micron DDR5 RDIMM 128GB",
+            img: "/images/products/memory/micron-ddr5-rdimm-128gb.webp",
+            url: "https://www.micron.com/products/memory/dram-modules/rdimm",
+            chips: [["16–128GB", "16–128GB"], ["8,000 MT/s", "8,000 MT/s"], ["CL 22–64", "CL 22–64"]],
+            spec: [
+              ["form", ["已注册 DIMM（RDIMM）", "Registered DIMM (RDIMM)"]],
+              ["capacity", ["16GB / 32GB / 64GB / 128GB，最高 128GB", "16GB / 32GB / 64GB / 128GB, up to 128GB"]],
+              ["speed", ["3,200 / 5,600 / 6,400 / 7,200 / 8,000 MT/s（标称 1600–4000MHz）", "3,200 / 5,600 / 6,400 / 7,200 / 8,000 MT/s (labelled 1600–4000MHz)"]],
+              ["cl", ["CL 22 / 46 / 52 / 58 / 64", "CL 22 / 46 / 52 / 58 / 64"]],
+              ["voltage", ["1.1V / 1.2V", "1.1V / 1.2V"]],
+              ["org", ["x72 / x80，单列至四列", "x72 / x80, single to quad rank"]],
+              ["use", ["企业级服务器与数据中心", "Enterprise servers and data centers"]],
+            ]
+          }
+        ]
+      },
+      {
+        id: "ddr5-mrdimm",
+        name: "DDR5 MRDIMM",
+        tag: ["AI 推理与 HPC 高带宽", "AI Inference & HPC"],
+        brief: ["最高 256GB · 8,800 Mbps · 1.1V", "Up to 256GB · 8,800 Mbps · 1.1V"],
+        specs: [
+          ["form", ["多路复用 Rank DIMM", "Multiplexed Rank DIMM"]],
+          ["capacity", ["最高 256GB", "Up to 256GB"]],
+          ["speed", ["最高 8,800 Mbps", "Up to 8,800 Mbps"]],
+          ["voltage", ["1.1V", "1.1V"]],
+          ["org", ["多路复用数据通道，降低延迟", "Multiplexed data channels, lower latency"]],
+          ["use", ["AI 推理、HPC 等内存密集型负载", "Memory-intensive workloads such as AI inference and HPC"]],
+        ],
+        real: [
+          {
+            brand: "samsung",
+            name: "Samsung DDR5 MRDIMM",
+            img: "/images/products/memory/samsung-ddr5-mrdimm.png",
+            url: "https://semiconductor.samsung.com/dram/ddr/",
+            chips: [["最高 256GB", "Up to 256GB"], ["最高 8,800 Mbps", "Up to 8,800 Mbps"], ["1.1V", "1.1V"]]
+          },
+          {
+            brand: "micron",
+            name: "Micron DDR5 MRDIMM 256GB",
+            img: "/images/products/memory/micron-ddr5-mrdimm-256gb.webp",
+            url: "https://www.micron.com/products/memory/dram-modules/mrdimm",
+            chips: [["32–256GB", "32–256GB"], ["14,400 MT/s", "14,400 MT/s"], ["CL 36–58", "CL 36–58"]],
+            spec: [
+              ["form", ["多路复用 Rank DIMM（MRDIMM）", "Multiplexed Rank DIMM (MRDIMM)"]],
+              ["capacity", ["32GB / 64GB / 96GB / 128GB，另有 256GB 型号", "32GB / 64GB / 96GB / 128GB, plus a 256GB model"]],
+              ["speed", ["8,800 / 14,400 MT/s（标称 2,200MHz / 3,600MHz）", "8,800 / 14,400 MT/s (labelled 2,200MHz / 3,600MHz)"]],
+              ["cl", ["CL 36 / 58", "CL 36 / 58"]],
+              ["voltage", ["1.1V", "1.1V"]],
+              ["org", ["x4 / x8 组织，多路复用数据通道", "x4 / x8 organizations, multiplexed data channels"]],
+              ["use", ["AI 推理与 HPC 内存密集型负载", "AI inference and HPC memory-intensive workloads"]],
+            ]
+          }
+        ]
+      },
+      {
+        id: "ddr5-udimm",
+        name: "DDR5 UDIMM",
+        tag: ["桌面与工作站低延迟", "Desktop & Workstation"],
+        brief: ["最高 48GB · 5,600 Mbps · 1.1V", "Up to 48GB · 5,600 Mbps · 1.1V"],
+        specs: [
+          ["form", ["无缓冲 DIMM", "Unbuffered DIMM"]],
+          ["capacity", ["最高 48GB", "Up to 48GB"]],
+          ["speed", ["最高 5,600 Mbps", "Up to 5,600 Mbps"]],
+          ["voltage", ["1.1V", "1.1V"]],
+          ["org", ["x8 / x16，单列或双列", "x8 / x16, single or dual rank"]],
+          ["use", ["台式机、工作站等低延迟场景", "Desktops and workstations needing low latency"]],
+        ],
+        real: [
+          {
+            brand: "samsung",
+            name: "Samsung DDR5 UDIMM",
+            img: "/images/products/memory/samsung-ddr5-udimm.png",
+            url: "https://semiconductor.samsung.com/dram/ddr/",
+            chips: [["最高 48GB", "Up to 48GB"], ["最高 5,600 Mbps", "Up to 5,600 Mbps"], ["1.1V", "1.1V"]],
+          },
+          {
+            brand: "micron",
+            name: "Micron DDR5 UDIMM 32GB",
+            img: "/images/products/memory/micron-ddr5-udimm-32gb.webp",
+            url: "https://www.micron.com/products/memory/dram-modules/udimm",
+            chips: [["8–32GB", "8–32GB"], ["6,400 MT/s", "6,400 MT/s"], ["CL 46–64", "CL 46–64"]],
+            spec: [
+              ["form", ["无缓冲 DIMM（UDIMM / CUDIMM）", "Unbuffered DIMM (UDIMM / CUDIMM)"]],
+              ["capacity", ["8GB / 12GB / 16GB / 24GB / 32GB，最高 32GB", "8GB / 12GB / 16GB / 24GB / 32GB, up to 32GB"]],
+              ["speed", ["2,800 / 3,200 / 3,600 / 4,000MHz（标称 5,600–6,400 MT/s）", "2,800 / 3,200 / 3,600 / 4,000MHz (5,600–6,400 MT/s)"]],
+              ["cl", ["CL 46 / 52 / 58 / 64", "CL 46 / 52 / 58 / 64"]],
+              ["voltage", ["1.1V", "1.1V"]],
+              ["org", ["x64，非 ECC", "x64, non-ECC"]],
+              ["use", ["台式电脑与工作站", "Desktop PCs and workstations"]],
+            ]
+          }
+        ]
+      },
+      {
+        id: "ddr5-ecc-udimm",
+        name: "DDR5 ECC UDIMM",
+        tag: ["带纠错的工作站内存", "ECC Unbuffered DIMM"],
+        brief: ["最高 32GB · 5,600 Mbps · 1.1V", "Up to 32GB · 5,600 Mbps · 1.1V"],
+        specs: [
+          ["form", ["ECC 无缓冲 DIMM", "ECC Unbuffered DIMM"]],
+          ["capacity", ["最高 32GB", "Up to 32GB"]],
+          ["speed", ["最高 5,600 Mbps", "Up to 5,600 Mbps"]],
+          ["voltage", ["1.1V", "1.1V"]],
+          ["org", ["x8，单列或双列", "x8, single or dual rank"]],
+          ["use", ["需要数据完整性的工作站与入门级服务器", "Workstations and entry servers needing data integrity"]],
+        ],
+        real: [
+          {
+            brand: "samsung",
+            name: "Samsung DDR5 ECC UDIMM",
+            img: "/images/products/memory/samsung-ddr5-ecc-udimm.png",
+            url: "https://semiconductor.samsung.com/dram/ddr/",
+            chips: [["最高 32GB", "Up to 32GB"], ["最高 5,600 Mbps", "Up to 5,600 Mbps"], ["1.1V", "1.1V"]]
+          }
+        ]
+      },
+      {
+        id: "ddr5-sodimm",
+        name: "DDR5 SODIMM",
+        tag: ["笔电与迷你主机", "Laptop & Mini-PC"],
+        brief: ["最高 32GB · 5,600 Mbps · 1.1V", "Up to 32GB · 5,600 Mbps · 1.1V"],
+        specs: [
+          ["form", ["小型 SO-DIMM", "Small Outline DIMM"]],
+          ["capacity", ["最高 32GB", "Up to 32GB"]],
+          ["speed", ["最高 5,600 Mbps", "Up to 5,600 Mbps"]],
+          ["voltage", ["1.1V", "1.1V"]],
+          ["org", ["x8 / x16，单列或双列", "x8 / x16, single or dual rank"]],
+          ["use", ["笔记本电脑、迷你主机与嵌入式系统", "Laptops, mini-PCs and embedded systems"]],
+        ],
+        real: [
+          {
+            brand: "samsung",
+            name: "Samsung DDR5 SODIMM",
+            img: "/images/products/memory/samsung-ddr5-sodimm.png",
+            url: "https://semiconductor.samsung.com/dram/ddr/",
+            chips: [["最高 32GB", "Up to 32GB"], ["最高 5,600 Mbps", "Up to 5,600 Mbps"], ["1.1V", "1.1V"]],
+          },
+          {
+            brand: "micron",
+            name: "Micron DDR5 SODIMM 64GB",
+            img: "/images/products/memory/micron-ddr5-sodimm-64gb.webp",
+            url: "https://www.micron.com/products/memory/dram-modules/sodimm",
+            chips: [["8–64GB", "8–64GB"], ["6,400 MT/s", "6,400 MT/s"], ["CL 46–58", "CL 46–58"]],
+            spec: [
+              ["form", ["小型 DIMM（SODIMM / CSODIMM）", "Small Outline DIMM (SODIMM / CSODIMM)"]],
+              ["capacity", ["8GB / 12GB / 16GB / 24GB / 32GB / 48GB / 64GB，最高 64GB", "8GB / 12GB / 16GB / 24GB / 32GB / 48GB / 64GB, up to 64GB"]],
+              ["speed", ["2,800 / 3,200 / 3,600MHz（标称 5,600–6,400 MT/s，CSODIMM 时钟版可达 6,400MT/s）", "2,800 / 3,200 / 3,600MHz (5,600–6,400 MT/s; clocked CSODIMM up to 6,400MT/s)"]],
+              ["cl", ["CL 46 / 52 / 58", "CL 46 / 52 / 58"]],
+              ["voltage", ["1.1V", "1.1V"]],
+              ["org", ["x64，非 ECC", "x64, non-ECC"]],
+              ["use", ["笔记本电脑、迷你主机与嵌入式平台", "Laptops, mini PCs and embedded platforms"]],
+            ]
+          }
+        ]
+      },
+      {
+        id: "ddr5-ecc-sodimm",
+        name: "DDR5 ECC SODIMM",
+        tag: ["工业与边缘平台", "Industrial & Edge"],
+        brief: ["最高 32GB · 5,600 Mbps · 1.1V", "Up to 32GB · 5,600 Mbps · 1.1V"],
+        specs: [
+          ["form", ["ECC 小型 SO-DIMM", "ECC Small Outline DIMM"]],
+          ["capacity", ["最高 32GB", "Up to 32GB"]],
+          ["speed", ["最高 5,600 Mbps", "Up to 5,600 Mbps"]],
+          ["voltage", ["1.1V", "1.1V"]],
+          ["org", ["x8，单列或双列", "x8, single or dual rank"]],
+          ["use", ["工业、嵌入式与边缘计算等空间受限场景", "Industrial, embedded and edge platforms with space limits"]],
+        ],
+        real: [
+          {
+            brand: "samsung",
+            name: "Samsung DDR5 ECC SODIMM",
+            img: "/images/products/memory/samsung-ddr5-ecc-sodimm.png",
+            url: "https://semiconductor.samsung.com/dram/ddr/",
+            chips: [["最高 32GB", "Up to 32GB"], ["最高 5,600 Mbps", "Up to 5,600 Mbps"], ["1.1V", "1.1V"]]
+          }
+        ]
+      }
+    ]
   }
 ];
 
