@@ -1481,3 +1481,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (max-width: 480px) {
   .map-modal-panel { max-width: none; padding: 20px 16px 16px; }
 }
+
+.map-modal-kw {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--accent);
+  margin: -10px 0 18px;
+  word-break: break-all;
+}

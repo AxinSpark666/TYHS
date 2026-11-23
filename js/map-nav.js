@@ -5,11 +5,12 @@
   var zh = {
     title: "打开地图导航",
     hint: "选择地图后将打开对应应用或网页",
+    kw: "地图将按此名称检索：",
     amap: "高德地图",
     amapHint: "步行 / 驾车导航",
     baidu: "百度地图",
     baiduHint: "步行 / 驾车导航",
-    copy: "复制地址",
+    copy: "复制检索词",
     copyHint: "粘贴到任意地图应用搜索",
     copied: "已复制到剪贴板",
     cancel: "取消",
@@ -18,11 +19,12 @@
   var en = {
     title: "Open navigation",
     hint: "Choose a map service to open the app or web map",
+    kw: "Searching by: ",
     amap: "Amap",
     amapHint: "Walking / driving",
     baidu: "Baidu Maps",
     baiduHint: "Walking / driving",
-    copy: "Copy address",
+    copy: "Copy search term",
     copyHint: "Paste into any map app",
     copied: "Copied to clipboard",
     cancel: "Cancel",
@@ -47,6 +49,7 @@
       '<div class="map-modal-panel">' +
       '<h3 class="map-modal-title"></h3>' +
       '<p class="map-modal-addr"></p>' +
+      '<p class="map-modal-kw"></p>' +
       '<div class="map-modal-list">' +
       '<button type="button" class="map-modal-btn" data-map-go="amap"><span class="map-modal-name"></span><span class="map-modal-hint"></span></button>' +
       '<button type="button" class="map-modal-btn" data-map-go="baidu"><span class="map-modal-name"></span><span class="map-modal-hint"></span></button>' +
@@ -66,9 +69,11 @@
     var panel = modal.querySelector(".map-modal-panel");
     var titleEl = modal.querySelector(".map-modal-title");
     var addrEl = modal.querySelector(".map-modal-addr");
+    var kwEl = modal.querySelector(".map-modal-kw");
     var cancelBtn = modal.querySelector(".map-modal-cancel");
     var goBtns = modal.querySelectorAll("[data-map-go]");
     var current = "";
+    var currentKeyword = "";
     var lastFocus = null;
 
     function refreshLabels() {
@@ -88,11 +93,20 @@
       }
     }
 
-    function open(addr, fromEl) {
+    function open(addr, keyword, fromEl) {
       current = addr;
+      currentKeyword = keyword || addr;
       lastFocus = fromEl || null;
       refreshLabels();
       addrEl.textContent = addr;
+      var L = t();
+      if (currentKeyword && currentKeyword !== addr) {
+        kwEl.textContent = L.kw + currentKeyword;
+        kwEl.style.display = "";
+      } else {
+        kwEl.textContent = "";
+        kwEl.style.display = "none";
+      }
       modal.classList.add("open");
       var first = modal.querySelector(".map-modal-btn");
       if (first) first.focus();
@@ -121,14 +135,15 @@
         if (!el.hasAttribute("role")) el.setAttribute("role", "button");
         if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
         var addr = el.getAttribute("data-map-address");
+        var kw = el.getAttribute("data-map-keyword");
         el.addEventListener("click", function (e) {
           e.preventDefault();
-          open(addr, el);
+          open(addr, kw, el);
         });
         el.addEventListener("keydown", function (e) {
           if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
             e.preventDefault();
-            open(addr, el);
+            open(addr, kw, el);
           }
         });
       })(triggers[i]);
@@ -140,10 +155,10 @@
         if (kind === "copy") {
           var L = t();
           if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(current);
+            navigator.clipboard.writeText(currentKeyword || current);
           } else {
             var ta = document.createElement("textarea");
-            ta.value = current;
+            ta.value = currentKeyword || current;
             document.body.appendChild(ta);
             ta.select();
             try { document.execCommand("copy"); } catch (e) {}
@@ -152,7 +167,7 @@
           this.querySelector(".map-modal-hint").textContent = L.copied;
           return;
         }
-        openUrl(kind === "amap" ? amapUrl(current) : baiduUrl(current));
+        openUrl(kind === "amap" ? amapUrl(currentKeyword || current) : baiduUrl(currentKeyword || current));
         close();
       });
     }
